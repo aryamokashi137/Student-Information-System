@@ -1,0 +1,219 @@
+import java.util.*;
+import java.io.*;
+import java.awt.*;
+import javax.swing.*;
+import java.awt.event.*;
+
+class tab{
+
+    JFrame j = new JFrame("Student Information");
+    JTextArea t = new JTextArea("Student Information Page");
+    Font f = new Font("New Times Roman",Font.BOLD,20);
+    JTabbedPane tp = new JTabbedPane();
+    JLabel jl = new JLabel();
+
+    JPanel p1 = new JPanel();
+    JPanel p2 = new JPanel();
+    JPanel p3 = new JPanel();
+
+    JTextField ugname = new JTextField();
+    JTextField ugrollno = new JTextField();
+    JTextField ugcourse= new JTextField();
+    JTextField ugdepartment = new JTextField();
+    JTextField ugage = new JTextField();
+    JTextField pgname = new JTextField();
+    JTextField pgrollno = new JTextField();
+    JTextField pgcourse= new JTextField();
+    JTextField pgdepartment = new JTextField();
+    JTextField pgage = new JTextField();
+    JTextField drname = new JTextField();
+    JTextField drrollno = new JTextField();
+    JTextField drcourse= new JTextField();
+    JTextField drdepartment = new JTextField();
+    JTextField drage = new JTextField();
+
+    tab() {                                                          // the setsize etc functions should be used in constructor and not in direct class
+        j.setSize(500, 500);
+        j.setVisible(true);
+        j.setBackground(Color.GRAY);
+        j.add(t);
+        j.setLayout(new BorderLayout());                           //for border layout of north south east west
+        j.add(t, BorderLayout.NORTH);
+        j.add(tp);
+        //j.add(b,BorderLayout.SOUTH);
+
+        t.setBackground(Color.GRAY);
+        t.setEditable(false);
+        t.setFont(f);
+        t.setVisible(true);
+
+        tp.setBounds(100, 150, 50, 50);
+        tp.add("UnderGraduate", p1);
+        p1.setBackground(Color.GRAY);
+        tp.add("PostGraduate", p2);
+        p2.setBackground(Color.GRAY);
+        tp.add("Doctorate", p3);
+        p3.setBackground(Color.GRAY);
+
+        p1.setLayout(new GridLayout(6, 2, 5, 5));
+        p1.add(new JLabel("Name: "));
+        p1.add(ugname);
+        p1.add(new JLabel("Rollno.: "));
+        p1.add(ugrollno);
+        p1.add(new JLabel("Course: "));
+        p1.add(ugcourse);
+        p1.add(new JLabel("Department: "));
+        p1.add(ugdepartment);
+        p1.add(new JLabel("Age: "));
+        p1.add(ugage);
+
+        p2.setLayout(new GridLayout(6, 2, 5, 5));
+        p2.add(new JLabel("Name: "));
+        p2.add(pgname);
+        p2.add(new JLabel("Rollno.: "));
+        p2.add(pgrollno);
+        p2.add(new JLabel("Course: "));
+        p2.add(pgcourse);
+        p2.add(new JLabel("Department: "));
+        p2.add(pgdepartment);
+        p2.add(new JLabel("Age: "));
+        p2.add(pgage);
+
+        p3.setLayout(new GridLayout(6, 2, 5, 5));
+        p3.add(new JLabel("Name: "));
+        p3.add(drname);
+        p3.add(new JLabel("Rollno.: "));
+        p3.add(drrollno);
+        p3.add(new JLabel("Course: "));
+        p3.add(drcourse);
+        p3.add(new JLabel("Department: "));
+        p3.add(drdepartment);
+        p3.add(new JLabel("Age: "));
+        p3.add(drage);
+
+        JButton ugcancel = new JButton("Cancel");
+        JButton ugsave = new JButton("Save Data");
+        ugsave.setBackground(Color.ORANGE);
+        p1.add(ugcancel);
+        p1.add(ugsave);
+
+       ugsave.addActionListener(new ActionListener() {
+            public void actionPerformed(ActionEvent e) {
+                String name = ugname.getText();
+                int rollno = Integer.parseInt(ugrollno.getText());                            //for text conversion into int
+                String course = ugcourse.getText();
+                String department = ugdepartment.getText();
+                int age = Integer.parseInt(ugage.getText());
+                   savedata("UnderGraduate", ugname, ugrollno, ugcourse, ugdepartment, ugage);
+
+                ugname.setText("");                               //setText() for setting null text after save button is clicked
+                ugrollno.setText("");
+                ugcourse.setText("");
+                ugdepartment.setText("");
+                ugage.setText("");
+            }
+        });
+
+       ugcancel.addActionListener(new ActionListener(){
+           public void actionPerformed(ActionEvent e){
+               canceldata("",ugname,ugrollno,ugcourse,ugdepartment,ugage);
+               ugname.setText("");                               //setText() for setting null text after save button is clicked
+               ugrollno.setText("");
+               ugcourse.setText("");
+               ugdepartment.setText("");
+               ugage.setText("");
+           }
+       });
+
+        JButton pgcancel = new JButton("Cancel");
+        JButton pgsave = new JButton("Save Data");
+        pgsave.setBackground(Color.ORANGE);
+        p2.add(pgcancel);
+        p2.add(pgsave);
+
+        pgsave.addActionListener(new ActionListener() {
+            public void actionPerformed(ActionEvent e) {
+                String name = pgname.getText();
+                int rollno = Integer.parseInt(pgrollno.getText());
+                String course = pgcourse.getText();
+                String department = pgdepartment.getText();
+                int age = Integer.parseInt(pgage.getText());
+                savedata("PostGraduate",pgname,pgrollno,pgcourse,pgdepartment,pgage);
+                canceldata("",pgname,pgrollno,pgcourse,pgdepartment,pgage);
+
+                pgname.setText("");
+                pgrollno.setText("");
+                pgcourse.setText("");
+                pgdepartment.setText("");
+                pgage.setText("");
+            }
+        });
+
+        JButton drcancel = new JButton("Cancel");
+        JButton drsave = new JButton("Save Data");
+        drsave.setBackground(Color.ORANGE);
+        p3.add(drcancel);
+        p3.add(drsave);
+
+        drsave.addActionListener(new ActionListener() {
+            public void actionPerformed(ActionEvent e) {
+                String name = drname.getText();
+                int rollno = Integer.parseInt(drrollno.getText());
+                String course = drcourse.getText();
+                String department = drdepartment.getText();
+                int age = Integer.parseInt(drage.getText());
+                savedata("Doctorate",drname,drrollno,drcourse,drdepartment,drage);
+                canceldata("",drname,drrollno,drcourse,drdepartment,drage);
+
+                drname.setText("");
+                drrollno.setText("");
+                drcourse.setText("");
+                drdepartment.setText("");
+                drage.setText("");
+            }
+        });
+    }
+
+public void savedata(String coursename, JTextField nameField, JTextField rollnoField,
+                     JTextField courseField, JTextField departmentField, JTextField ageField ){
+        try(FileWriter writer = new FileWriter("s.txt",true)){
+
+            writer.write("Coursetype: "+coursename+"\n");
+            writer.write("Name: "+nameField.getText()+"\n");
+            writer.write("Rollno: "+rollnoField.getText()+"\n");
+            writer.write("Course: "+courseField.getText()+"\n");
+            writer.write("Department: "+departmentField.getText()+"\n");
+            writer.write("Age: "+ageField.getText()+"\n");
+            writer.write("-----------------------------\n");
+        }
+        catch(IOException e){
+            System.out.println("ERROR!!!");
+            e.printStackTrace();
+        }
+    }
+    public void canceldata(String coursename, JTextField nameField, JTextField rollnoField,
+                         JTextField courseField, JTextField departmentField, JTextField ageField ){
+        try(FileWriter writer = new FileWriter("s.txt",true)){
+
+            writer.write("");
+            writer.write("");
+            writer.write("");
+            writer.write("");
+            writer.write("");
+            writer.write("");
+          //  writer.write("-----------------------------\n");
+        }
+        catch(IOException e){
+            System.out.println("ERROR!!!");
+            e.printStackTrace();
+        }
+    }
+}
+public class Main{
+    public static void main(String [] args){
+        Scanner sc = new Scanner(System.in);
+        new tab();
+        }
+    }
+
+
